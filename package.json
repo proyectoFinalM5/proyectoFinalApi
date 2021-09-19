@@ -3,11 +3,12 @@
   "version": "1.0.0",
   "description": "api con nodejs",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon npm ."
   },
-  "author": "",
+  "author": "melvin",
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1",
