@@ -1,7 +1,7 @@
 import { connect } from "mongoose";
 
 export const connectDB = () => {
-    connect("mongodb+srv://javi:1234@comercios.yd3gh.mongodb.net/emprendeapp?retryWrites=true&w=majority")
+    connect(process.env.URL_DATABASE)
         .then((db) => console.log("Ya en linea XD"))
         .catch((err) => console.log("No se conecta :( "));
 }
