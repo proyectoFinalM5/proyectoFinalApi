@@ -17,10 +17,10 @@ const comercioSchema = Mongoose.Schema({
 })
 
 const regex = {
-    email: ^[a-zA-Z0-8.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$
-    telefono: ^[+]*[0-9\s]{1,3}[0-9\s]+$
-    contraseña: ^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8,16}$
-    logo: <div id="imgTagWrapperId"[\s\S+]+src="([\s\S+]+?jpg)"
+    email: ^[a-zA-Z0-8.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$,
+    telefono: ^[+]*[0-9\s]{1,3}[0-9\s]+$,
+    contraseña: ^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8,16}$,
+    
 }
 
 
