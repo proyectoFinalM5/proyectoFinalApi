@@ -11,6 +11,4 @@ const comercioSchema = Schema({
     logo: { type: String, min: 5, require: true }
 })
 
-
-
 export default model('Comercio', comercioSchema)
