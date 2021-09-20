@@ -1,6 +1,6 @@
-import { Schema, model } from 'mongoose'
-const schema = Schema({
+import mongoose from 'mongoose'
+const schema = mongoose.Schema({
     nombre: { type: String, required: true },
     direccion: { type: String, required: true }
 })
-export default model('Comercio', schema)
+export default mongoose.model('Comercio', schema)
