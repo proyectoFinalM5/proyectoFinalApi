@@ -40,4 +40,3 @@ export const middleware = async (req, res, next) => {
     if (!login.emailVerified && path !== 'verify') return res.status(401).send({ user, message: 'verify you email, please' });
     req.params.userId = _id;
     next();
-}
