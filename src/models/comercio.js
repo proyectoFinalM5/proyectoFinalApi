@@ -1,8 +1,8 @@
 import mongoose from 'mongoose'
 
 const comercioSchema = mongoose.Schema({
-    nombre_comercio: { type: String, max: 15, min: 5, required: true },
-    nombre_dueño: { type: String, max: 15, min: 5, required: true },
+    comercio: { type: String, max: 15, min: 5, required: true },
+    propietario: { type: String, max: 15, min: 5, required: true },
     location: {
         type: {
             type: String, // Don't do `{ location: { type: String } }`
