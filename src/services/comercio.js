@@ -1,22 +1,7 @@
 import Comercio from '../models/comercio.js'
-export const listado = async () => {
-    try {
-        return await Comercio.find()
-    } catch (error) {
-        throw error;
-    }
-}
 
-export const findById = async (id) => {
-    try {
-        return await Comercio.findById(id)
-    } catch (error) {
-        throw error;
-    }
-}
-
-export const buscar = async (props, values) => {
-    const find = (props instanceof Array) ? props.reduce((x, y) => ({ ...x, [y.prop]: y.value }), {}) : { [props]: values }
+export const buscar = async (props) => {
+    const find = (props instanceof Array) ? props.reduce((x, y) => ({ ...x, [y.prop]: { '$regex': y.value, '$options': 'i' } }), {}) : props
     try {
         return await Comercio.find(find)
     } catch (error) {
@@ -33,7 +18,7 @@ export const guardar = async (body) => {
 }
 export const actualizar = async (id, body) => {
     try {
-        return await Comercio.findByIdAndUpdate(id, { "$set": { ...body } })
+        return await Comercio.findByIdAndUpdate(id, { "$set": { ...body } }, { returnOriginal: false })
     } catch (error) {
         throw error;
     }
@@ -45,4 +30,4 @@ export const eliminar = async (id) => {
         throw error;
     }
 }
-export default { listado, findById, buscar, guardar, actualizar, eliminar }
+export default { buscar, guardar, actualizar, eliminar }

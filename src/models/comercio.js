@@ -1,12 +1,12 @@
 import mongoose from 'mongoose'
 
 const comercioSchema = mongoose.Schema({
-    comercio: { type: String, max: 15, min: 5, required: true },
+    nombre: { type: String, max: 15, min: 5, required: true },
     propietario: { type: String, max: 15, min: 5, required: true },
     location: {
         type: {
-            type: String, // Don't do `{ location: { type: String } }`
-            enum: ['Point'], // 'location.type' must be 'Point'
+            type: String,
+            enum: ['Point'],
             required: true
         },
         coordinates: {

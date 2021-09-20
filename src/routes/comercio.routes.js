@@ -14,6 +14,7 @@ const ruta = Router();
  */
 
 ruta.get("/", cController.listar)
+ruta.get("/search", cController.search)
 ruta.get("/:id", cController.findById)
 ruta.post("/", cController.registrar)
 ruta.delete("/:id", cController.eliminar)
