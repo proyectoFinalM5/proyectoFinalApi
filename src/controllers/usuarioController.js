@@ -1,5 +1,6 @@
 import regex from '../helpers/regex.js';
 import service from '../services/usuario.js'
+import mongoose from 'mongoose'
 
 export const listar = async (req, res) => {
     try {
@@ -12,8 +13,10 @@ export const listar = async (req, res) => {
 }
 
 export const findById = async (req, res) => {
+    let { _id } = req.params;
+    if (_id instanceof String) { _id = mongoose.Types.ObjectId(_id); }
     try {
-        const usuario = await service.search({ _id: req.params.id })
+        const usuario = await service.buscar({ _id })
         return res.json({ usuario })
     } catch (error) {
         const message = error?.message || error;
