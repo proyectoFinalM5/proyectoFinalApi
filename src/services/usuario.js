@@ -1,7 +1,6 @@
 import { hashPassword } from '../helpers/bcrypt.js';
 import Usuario from '../models/usuario.js'
 
-
 export const buscar = async (props) => {
     const find = {};
     for (const prop in props) {
