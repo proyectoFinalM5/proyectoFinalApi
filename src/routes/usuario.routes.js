@@ -9,17 +9,19 @@ const ruta = Router();
  * @summary listado de usuarios
  * @tags Usuario
  * @return {object} 200 - success response
+ * @security BearerAuth
  */
-ruta.get("/", uController.listar)
+ruta.get("/", middleware, uController.listar)
 
 /**
  * GET /usuario/{id}
  * @summary busqueda por id
  * @tags Usuario
  * @param {string} id.path - Id usuario
+ * @security BearerAuth
  * @return {object} 200 - success response - application/json
  */
-ruta.get("/:id", uController.findById)
+ruta.get("/:id", middleware, uController.findById)
 
 /**
  * POST /usuario
@@ -82,5 +84,5 @@ ruta.delete("/:id", middleware, uController.eliminar)
  *   "rol":3
  * }
  */
-ruta.put("/:id", middleware, uController.actualizar)
+ruta.put("/:id", uController.actualizar)
 export default ruta;

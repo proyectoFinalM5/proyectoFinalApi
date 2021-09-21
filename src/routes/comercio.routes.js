@@ -13,7 +13,7 @@ const ruta = Router();
 ruta.get("/", middleware, cController.listar)
 
 /**
- * GET /findByName
+ * GET /search
  * @summary busqueda por nombre
  * @tags Comercio
  * @param {string} nombre.query.required - Nombre comercio
@@ -40,7 +40,7 @@ ruta.get("/:id", middleware, cController.findById)
  * @typedef {object} comercio
  * @property {string} nombre.required - Nombre del comercio
  * @property {string} propietario.required - Propietario del comercio
- * @property {string} location - Localizacion del comercio
+ * @property {string} coordinates - Localizacion del comercio
  * @property {string} telefono.required - Telefono del comercio
  * @property {string} redes_sociales - Redes sociales del comercio
  * @property {string} categoria.required - Categoria del comercio
@@ -52,7 +52,7 @@ ruta.get("/:id", middleware, cController.findById)
  * {
  *   "nombre": "Bury The Light",
  *   "propietario": "Casey Edwards ft. Victor Borba",
- *   "location": "-125.7, 35.5",
+ *   "coordinates": [-125.7, 35.5],
  *   "telefono": "77889900",
  *   "redes_sociales": "Redes sociales",
  *   "categoria": "Ropa",
@@ -82,7 +82,7 @@ ruta.delete("/:id", middleware, cController.eliminar)
  * @property {string} _id.params.required - ID del comercio
  * @property {string} nombre.required - Nombre del comercio
  * @property {string} propietario.required - Propietario del comercio
- * @property {string} location - Localizacion del comercio
+ * @property {string} coordinates - Localizacion del comercio
  * @property {string} telefono.required - Telefono del comercio
  * @property {string} redes_sociales - Redes sociales del comercio
  * @property {string} categoria.required - Categoria del comercio
@@ -92,10 +92,9 @@ ruta.delete("/:id", middleware, cController.eliminar)
  * @security BearerAuth
  * @example request - example comercio
  * {
- *   "_id":"ID",
  *   "nombre": "Bury The Light",
  *   "propietario": "Casey Edwards ft. Victor Borba",
- *   "location": "-125.7, 35.5",
+ *   "coordinates": [-125.7, 35.5],
  *   "telefono": "77889966",
  *   "redes_sociales": "Redes sociales",
  *   "categoria": "Ropa",

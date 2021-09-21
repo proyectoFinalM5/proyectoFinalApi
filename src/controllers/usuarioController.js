@@ -1,7 +1,6 @@
 import regex from '../helpers/regex.js';
 import { stringToObjectID } from '../helpers/parser.js';
 import service from '../services/usuario.js'
-import mongoose from 'mongoose'
 
 export const listar = async (req, res) => {
     try {
