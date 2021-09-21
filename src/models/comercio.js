@@ -14,9 +14,9 @@ const comercioSchema = mongoose.Schema({
             required: true
         }
     },
-    telefono: { type: Number, max: 8, min:8, require: true },
-    redes_sociales: {type: String, min:8 },
-    categoria: { type: String, min:4, require: true },
+    telefono: { type: String, max: 8, min: 8, require: true },
+    redes_sociales: { type: String, min: 8 },
+    categoria: { type: String, min: 4, require: true },
     descripcion: { type: String, min: 5, max: 100, require: true },
     logo: { type: String, min: 5, require: true }
 })

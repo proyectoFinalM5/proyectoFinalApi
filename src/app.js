@@ -1,29 +1,42 @@
 import Express from 'express'
 import Morgan from 'morgan'
 import RutasComercio from './routes/comercio.routes.js'
-import swaggerJsDoc from 'swagger-jsdoc'
-import swaggerUI from 'swagger-ui-express'
-
-const swaggerOptions = {
-    swaggerDefinition: {
-      info: {
-        title: "Comercios API",
-        version: '1.0.0',
-      },
+import expressJSDocSwagger from 'express-jsdoc-swagger'
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const app = Express()
+const options = {
+  info: {
+    version: '1.0.0',
+    title: 'Albums store',
+    license: {
+      name: 'MIT',
     },
-    apis: ["./routes/comercio.routes.js","./routes/usuario.routes.js"],
+  },
+  security: {
+    BasicAuth: {
+      type: 'http',
+      scheme: 'basic',
+    },
+  },
+  baseDir: __dirname,
+  filesPattern: './routes/*.js',
+  swaggerUIPath: '/api-docs',
+  exposeSwaggerUI: true,
+  exposeApiDocs: false,
+  apiDocsPath: '/v3/api-docs',
+  notRequiredAsNullable: false,
+  swaggerUiOptions: {},
+  multiple: true,
 };
-  
 
-const swaggerDocs = swaggerJsDoc(swaggerOptions);
+expressJSDocSwagger(app)(options);
 
-const app = Express();
-app.use('/Comercios-doc', swaggerUI.serve, swaggerUI.setup(swaggerDocs));
-
-app.use(Express.json());
-app.use(Express.urlencoded({ extended: true }));
-app.use(Morgan('dev'))
-app.use('/comercio', RutasComercio)
+// app.use(Express.json());
+// app.use(Express.urlencoded({ extended: true }));
+// app.use(Morgan('dev'))
+// app.use('/comercio', RutasComercio)
 app.set('puerto', 3000)
 
 export default app;
