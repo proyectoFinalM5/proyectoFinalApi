@@ -13,10 +13,10 @@ export const listar = async (req, res) => {
 }
 
 export const findById = async (req, res) => {
-    let { _id } = req.params;
-    if (_id instanceof String) { _id = mongoose.Types.ObjectId(_id); }
+    let { id } = req.params;
+    if (id instanceof String) { id = mongoose.Types.ObjectId(id); }
     try {
-        const usuario = await service.buscar({ _id })
+        const usuario = await service.buscar({ _id:id })
         return res.json({ usuario })
     } catch (error) {
         const message = error?.message || error;
@@ -40,7 +40,9 @@ export const registrar = async (req, res) => {
 }
 
 export const actualizar = async (req, res) => {
-    const { params: { id }, body } = req;
+   
+    let { params: { id }, body } = req;
+    if (id instanceof String) { id = mongoose.Types.ObjectId(id); }
     try {
         const usuario = await service.actualizar(id, body)
         return res.json({ usuario })
@@ -51,8 +53,10 @@ export const actualizar = async (req, res) => {
 }
 
 export const eliminar = async (req, res) => {
+    let { id } = req.params;
+    if (id instanceof String) { id = mongoose.Types.ObjectId(id); }
     try {
-        const usuario = await service.eliminar(req.params.id)
+        const usuario = await service.eliminar(id)
         return res.json({ usuario })
     } catch (error) {
         const message = error?.message || error;
