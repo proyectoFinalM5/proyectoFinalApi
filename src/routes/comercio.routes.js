@@ -13,7 +13,7 @@ const ruta = Router();
 ruta.get("/", middleware, cController.listar)
 
 /**
- * GET /search
+ * GET /comercio/search
  * @summary busqueda por nombre
  * @tags Comercio
  * @param {string} nombre.query.required - Nombre comercio
