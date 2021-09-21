@@ -1,22 +1,12 @@
+import { hashPassword } from '../helpers/bcrypt.js';
 import Usuario from '../models/usuario.js'
-export const listado = async () => {
-    try {
-        return await Usuario.find()
-    } catch (error) {
-        throw error;
-    }
-}
 
-export const findById = async (id) => {
-    try {
-        return await Usuario.findById(id)
-    } catch (error) {
-        throw error;
-    }
-}
 
-export const buscar = async (props, values) => {
-    const find = (props instanceof Array) ? props.reduce((x, y) => ({ ...x, [y.prop]: y.value }), {}) : { [props]: values }
+export const buscar = async (props) => {
+    const find = {};
+    for (const prop in props) {
+        find[prop] = prop == "_id" ? props[prop] : ({ '$regex': props[prop], '$options': 'i' })
+    }
     try {
         return await Usuario.find(find)
     } catch (error) {
@@ -25,7 +15,7 @@ export const buscar = async (props, values) => {
 }
 export const guardar = async (body) => {
     try {
-        const usuario = new Comercio({ ...body })
+        const usuario = new Usuario({ ...body, password: hashPassword(body.password) })
         return await usuario.save()
     } catch (error) {
         throw error;
@@ -33,7 +23,7 @@ export const guardar = async (body) => {
 }
 export const actualizar = async (id, body) => {
     try {
-        return await Usuario.findByIdAndUpdate(id, { "$set": { ...body } })
+        return await Usuario.findByIdAndUpdate(id, { "$set": { ...body, password: hashPassword(body.password) } }, { returnOriginal: false })
     } catch (error) {
         throw error;
     }
@@ -45,4 +35,4 @@ export const eliminar = async (id) => {
         throw error;
     }
 }
-export default { listado, findById, buscar, guardar, actualizar, eliminar }
+export default { buscar, guardar, actualizar, eliminar }

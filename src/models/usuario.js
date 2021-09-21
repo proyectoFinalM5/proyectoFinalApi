@@ -1,13 +1,12 @@
-
-import { Schema, model } from 'mongoose'
-const usuarioSchema = Schema({
+import mongoose from 'mongoose'
+import { regex } from '../helpers/regex.js'
+const usuarioSchema = mongoose.Schema({
     nombre: { type: String, max: 15, min: 5, required: true },
-    apellido:{ type: String, max: 15, min: 5, required: true },
-    telefono: { type: Number, max: 8, min:8, require: true },
-    email: { type: String, min: 5, max: 100, require: true },
-    password: { type: String, max: 15, min: 5, required: true },
-    rol: { type: String, min:4, require: true },
+    apellido: { type: String, max: 15, min: 5, required: true },
+    telefono: { type: String, max: 8, min: 8, require: true },
+    email: { type: String, min: 5, max: 100, validate: regex.email, unique: true, require: true },
+    password: { type: String, required: true },
+    rol: { type: Number, max: 3, min: 1, default: 3 },
 })
 
-
-export default model('Usuario', usuarioSchema)
+export default mongoose.model('Usuario', usuarioSchema)

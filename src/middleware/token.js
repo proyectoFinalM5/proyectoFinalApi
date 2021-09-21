@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 
-export const newToken = userId => {
+export const newToken = email => {
     const types = {
         auth: {
             title: 'auth',
@@ -10,7 +10,7 @@ export const newToken = userId => {
             expiresIn: '6h',
         }
     }
-    const PAYLOAD = type => ({ role: type.title, userId });
+    const PAYLOAD = type => ({ role: type.title, email });
     const OPTIONS = expiresIn => ({ expiresIn: expiresIn });
     const auth = jwt.sign(PAYLOAD(types.auth), process.env.TOKEN_SECRET, OPTIONS(types.auth.expiresIn));
     const refresh = jwt.sign(PAYLOAD(types.refresh), process.env.TOKEN_SECRET, OPTIONS(types.refresh.expiresIn));

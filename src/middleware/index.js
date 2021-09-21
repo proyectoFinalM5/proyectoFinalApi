@@ -1,3 +1,4 @@
+import { buscar } from "../services/usuario.js";
 import { verifyToken } from "./token.js";
 
 const reviewToken = (token, role = 'auth') => {
@@ -25,18 +26,33 @@ const reviewToken = (token, role = 'auth') => {
 }
 
 export const middleware = async (req, res, next) => {
-    const { url } = req;
+    const { url, method } = req;
     const { auth, refresh } = req.headers['auth'] ? req.headers : req.params;
     const path = url.split('/')[1].toLowerCase();
     const token = {
-        token: auth || refresh,
+        token: path === 'refresh' ? refresh : auth,
         role: path === 'refresh' ? path : 'auth'
     }
     const reviewAuthToken = await reviewToken(token['token'], token['role']);
     const { status, message, decoded } = reviewAuthToken;
     if (status !== 200) return res.status(status).send({ message });
-    const { _id } = decoded;
-    const { login, user } = await findUserById(_id);
-    if (!login.emailVerified && path !== 'verify') return res.status(401).send({ user, message: 'verify you email, please' });
-    req.params.userId = _id;
+    const { email } = decoded;
+    const user = await buscar({ email })
+    if (user.length === 0) return res.status(403).send({ message: "User invalid" });
+    const role = user[0].rol;
+    switch (method) {
+        case "POST":
+            if (role === 2 || role === 3) return res.status(401).send({ message: "su role no permite ejecutar esta peticion" })
+            break;
+        case "PUT":
+            if (role === 3) return res.status(401).send({ message: "su role no permite ejecutar esta peticion" })
+            break;
+        case "DELETE":
+            if (role === 3) return res.status(401).send({ message: "su role no permite ejecutar esta peticion" })
+            break;
+        default:
+            break;
+    }
+    req.params.email = email;
     next();
+}
