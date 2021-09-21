@@ -14,8 +14,9 @@ ruta.get("/", uController.listar)
 
 /**
  * GET /usuario/{id}
- * @summary listado de comercio
- * @param {string} _id.params.required - Id comercio
+ * @summary busqueda por id
+ * @tags Usuario
+ * @param {string} id.path - Id usuario
  * @return {object} 200 - success response - application/json
  */
 ruta.get("/:id", uController.findById)
@@ -33,14 +34,15 @@ ruta.get("/:id", uController.findById)
  * @property {string} password.required - Contrase;a del usuario
  * @property {string} rol.required - Rol del usuario
  * @return {object} 200 - success response -application/json
+ * @security BearerAuth
  * @example request - example usuario
  * {
  *   "nombre": "Byron Alexander",
  *   "apellido": "Ramirez Beltran",
  *   "telefono": "87654321",
  *   "email": "byron34@gmail.com",
- *   "password": "87345261",
- *   "rol":"1"
+ *   "password": "Byron123.",
+ *   "rol":3
  * }
  */
 ruta.post("/", middleware, uController.registrar)
@@ -49,13 +51,15 @@ ruta.post("/", middleware, uController.registrar)
  * DELETE /usuario/{id}
  * @summary Eliminar usuario
  * @tags Usuario
- * @param {string} _id.params.required - Id usuario
+ * @param {string} id.path - Id usuario
+ * @security BearerAuth
  * @return {object} 200 - success response - application/json
  */
 ruta.delete("/:id", middleware, uController.eliminar)
 
 /**
  * PUT /usuario/{id}
+ * @param {string} id.path - Id usuario
  * @param {usuario} request.body.required - Usuario info
  * @summary Actualizar usuario
  * @tags Usuario
@@ -67,14 +71,15 @@ ruta.delete("/:id", middleware, uController.eliminar)
  * @property {string} password.required - Contrase;a del usuario
  * @property {string} rol.required - Rol del usuario
  * @return {object} 200 - success response -application/json
+ * @security BearerAuth
  * @example request - example usuario
  * {
  *   "nombre": "Byron Alexander",
  *   "apellido": "Ramirez Beltran",
  *   "telefono": "87654321",
  *   "email": "byron34@gmail.com",
- *   "password": "87345261",
- *   "rol":"1"
+ *   "password": "Byron123.",
+ *   "rol":3
  * }
  */
 ruta.put("/:id", middleware, uController.actualizar)
