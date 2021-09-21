@@ -13,8 +13,10 @@ export const listar = async (req, res) => {
 }
 
 export const findById = async (req, res) => {
+    let { id } = req.params;
+    if (id instanceof String) { id = mongoose.Types.ObjectId(id); }
     try {
-        const comercio = await service.buscar({ _id: req.params.id })
+        const comercio = await service.buscar({ _id:id })
         return res.json({ comercio: comercio || {} })
     } catch (error) {
         const message = error?.message || error;
@@ -43,7 +45,8 @@ export const registrar = async (req, res) => {
 }
 
 export const actualizar = async (req, res) => {
-    const { params: { id }, body } = req;
+    let { params: { id }, body } = req;
+    if (id instanceof String) { id = mongoose.Types.ObjectId(id); }
     try {
         const comercio = await service.actualizar(id, body)
         return res.json({ comercio })
@@ -54,8 +57,10 @@ export const actualizar = async (req, res) => {
 }
 
 export const eliminar = async (req, res) => {
+    let { id } = req.params;
+    if (id instanceof String) { id = mongoose.Types.ObjectId(id); }
     try {
-        const comercio = await service.eliminar(req.params.id)
+        const comercio = await service.eliminar(id)
         return res.json({ comercio })
     } catch (error) {
         const message = error?.message || error;
