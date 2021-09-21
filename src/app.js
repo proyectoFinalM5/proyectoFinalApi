@@ -15,9 +15,9 @@ const app = Express()
 const options = {
   info: {
     version: '1.0.0',
-    title: 'Albums store',
+    title: 'Comercio API',
     license: {
-      name: 'MIT',
+      name: 'CRUD Comercio/Usuario',
     },
   },
   security: {
