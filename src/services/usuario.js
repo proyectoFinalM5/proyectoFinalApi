@@ -1,9 +1,10 @@
+import { hashPassword } from '../helpers/bcrypt.js';
 import Usuario from '../models/usuario.js'
 
 export const buscar = async (props) => {
     const find = {};
     for (const prop in props) {
-        find[prop] = ({ '$regex': props[prop], '$options': 'i' })
+        find[prop] = prop == "_id" ? props[prop] : ({ '$regex': props[prop], '$options': 'i' })
     }
     try {
         return await Usuario.find(find)
@@ -13,7 +14,7 @@ export const buscar = async (props) => {
 }
 export const guardar = async (body) => {
     try {
-        const usuario = new Usuario({ ...body })
+        const usuario = new Usuario({ ...body, password: hashPassword(body.password) })
         return await usuario.save()
     } catch (error) {
         throw error;
@@ -21,7 +22,7 @@ export const guardar = async (body) => {
 }
 export const actualizar = async (id, body) => {
     try {
-        return await Usuario.findByIdAndUpdate(id, { "$set": { ...body } }, { returnOriginal: false })
+        return await Usuario.findByIdAndUpdate(id, { "$set": { ...body, password: hashPassword(body.password) } }, { returnOriginal: false })
     } catch (error) {
         throw error;
     }

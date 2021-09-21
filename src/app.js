@@ -3,10 +3,15 @@ import Morgan from 'morgan'
 import routerComercio from './routes/comercio.routes.js'
 import routerUsuario from './routes/usuario.routes.js'
 import expressJSDocSwagger from 'express-jsdoc-swagger'
+import routerAuth from './routes/auth.routes.js'
+
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
+
 const __dirname = dirname(fileURLToPath(import.meta.url));
+
 const app = Express()
+
 const options = {
   info: {
     version: '1.0.0',
@@ -38,6 +43,7 @@ app.use(Express.urlencoded({ extended: true }));
 app.use(Morgan('dev'))
 app.use('/comercio', routerComercio)
 app.use('/usuario', routerUsuario)
-app.set('puerto', 3000)
+app.use(routerAuth)
+app.set('puerto', process.env.PORT || 3000)
 
 export default app;
