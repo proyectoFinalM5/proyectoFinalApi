@@ -27,10 +27,13 @@ const reviewToken = (token, role = 'auth') => {
 
 export const middleware = async (req, res, next) => {
     const { url, method } = req;
-    const { auth, refresh } = req.headers['auth'] ? req.headers : req.params;
+    let tokenRequest = req.header['x-access-token'] || req.headers['authorization'];
+    if (tokenRequest.startsWith("Bearer ")) {
+        tokenRequest = tokenRequest.slice(7, tokenRequest.length)
+    }
     const path = url.split('/')[1].toLowerCase();
     const token = {
-        token: path === 'refresh' ? refresh : auth,
+        token: tokenRequest,
         role: path === 'refresh' ? path : 'auth'
     }
     const reviewAuthToken = await reviewToken(token['token'], token['role']);
