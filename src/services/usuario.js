@@ -1,48 +1,63 @@
-import Usuario from '../models/usuario.js'
-export const listado = async () => {
+import service from '../services/usuario.js'
+
+export const listar = async (req, res) => {
     try {
-        return await Usuario.find()
+        const usuarios = await service.buscar({})
+        return res.json(usuarios)
     } catch (error) {
-        throw error;
+        const message = error?.message || error;
+        return res.status(400).send({ message })
     }
 }
 
-export const findById = async (id) => {
+export const findById = async (req, res) => {
     try {
-        return await Usuario.findById(id)
+        const usuario = await service.buscar({ _id: req.params.id })
+        return res.json({ usuario: usuario || {} })
     } catch (error) {
-        throw error;
+        const message = error?.message || error;
+        return res.status(400).send({ message })
     }
 }
 
-export const buscar = async (props, values) => {
-    const find = (props instanceof Array) ? props.reduce((x, y) => ({ ...x, [y.prop]: y.value }), {}) : { [props]: values }
+export const search = async (req, res) => {
     try {
-        return await Usuario.find(find)
+        const usuarios = await service.buscar(req.query);
+        return res.json(usuarios);
     } catch (error) {
-        throw error;
+        const message = error?.message || error;
+        return res.status(400).send({ message })
     }
 }
-export const guardar = async (body) => {
+export const registrar = async (req, res) => {
     try {
-        const usuario = new Comercio({ ...body })
-        return await usuario.save()
+        const usuario = await service.guardar(req.body)
+        return res.json({ usuario });
     } catch (error) {
-        throw error;
+        const message = error?.message || error;
+        return res.status(400).send({ message })
     }
 }
-export const actualizar = async (id, body) => {
+
+export const actualizar = async (req, res) => {
+    const { params: { id }, body } = req;
     try {
-        return await Usuario.findByIdAndUpdate(id, { "$set": { ...body } })
+        const usuario = await service.actualizar(id, body)
+        return res.json({ usuario })
     } catch (error) {
-        throw error;
+        const message = error?.message || error;
+        return res.status(400).send({ message })
     }
 }
-export const eliminar = async (id) => {
+
+export const eliminar = async (req, res) => {
     try {
-        return await Usuario.findByIdAndDelete(id)
+        const usuario = await service.eliminar(req.params?.id)
+        return res.json({ usuario })
     } catch (error) {
-        throw error;
+        const message = error?.message || error;
+        return res.status(400).send({ message })
     }
 }
-export default { listado, findById, buscar, guardar, actualizar, eliminar }
+
+export default { listar, findById, search, registrar, actualizar, eliminar }

@@ -23,13 +23,8 @@ export const findById = async (req, res) => {
 }
 
 export const search = async (req, res) => {
-    const { query } = req;
-    const filters = [];
-    for (let prop in query) {
-        filters.push({ prop, value: query[prop] })
-    }
     try {
-        const comercios = await service.buscar(filters);
+        const comercios = await service.buscar(req.query);
         comercios.map(x => (x.telefono = parseTelefono(x.telefono)))
         return res.json(comercios);
     } catch (error) {

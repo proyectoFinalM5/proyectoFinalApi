@@ -1,7 +1,10 @@
 import Comercio from '../models/comercio.js'
 
 export const buscar = async (props) => {
-    const find = (props instanceof Array) ? props.reduce((x, y) => ({ ...x, [y.prop]: { '$regex': y.value, '$options': 'i' } }), {}) : props
+    const find = {};
+    for (const prop in props) {
+        find[prop] = ({ '$regex': props[prop], '$options': 'i' })
+    }
     try {
         return await Comercio.find(find)
     } catch (error) {
