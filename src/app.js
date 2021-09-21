@@ -1,6 +1,7 @@
 import Express from 'express'
 import Morgan from 'morgan'
-import RutasComercio from './routes/comercio.routes.js'
+import routerComercio from './routes/comercio.routes.js'
+import routerUsuario from './routes/usuario.routes.js'
 import expressJSDocSwagger from 'express-jsdoc-swagger'
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
@@ -32,11 +33,11 @@ const options = {
 };
 
 expressJSDocSwagger(app)(options);
-
-// app.use(Express.json());
-// app.use(Express.urlencoded({ extended: true }));
-// app.use(Morgan('dev'))
-// app.use('/comercio', RutasComercio)
+app.use(Express.json());
+app.use(Express.urlencoded({ extended: true }));
+app.use(Morgan('dev'))
+app.use('/comercio', routerComercio)
+app.use('/usuario', routerUsuario)
 app.set('puerto', 3000)
 
 export default app;

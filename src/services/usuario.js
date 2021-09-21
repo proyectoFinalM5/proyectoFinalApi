@@ -1,63 +1,36 @@
-import service from '../services/usuario.js'
+import Usuario from '../models/usuario.js'
 
-export const listar = async (req, res) => {
+export const buscar = async (props) => {
+    const find = {};
+    for (const prop in props) {
+        find[prop] = ({ '$regex': props[prop], '$options': 'i' })
+    }
     try {
-        const usuarios = await service.buscar({})
-        return res.json(usuarios)
+        return await Usuario.find(find)
     } catch (error) {
-        const message = error?.message || error;
-        return res.status(400).send({ message })
+        throw error;
     }
 }
-
-export const findById = async (req, res) => {
+export const guardar = async (body) => {
     try {
-        const usuario = await service.buscar({ _id: req.params.id })
-        return res.json({ usuario: usuario || {} })
+        const usuario = new Usuario({ ...body })
+        return await usuario.save()
     } catch (error) {
-        const message = error?.message || error;
-        return res.status(400).send({ message })
+        throw error;
     }
 }
-
-export const search = async (req, res) => {
+export const actualizar = async (id, body) => {
     try {
-        const usuarios = await service.buscar(req.query);
-        return res.json(usuarios);
+        return await Usuario.findByIdAndUpdate(id, { "$set": { ...body } }, { returnOriginal: false })
     } catch (error) {
-        const message = error?.message || error;
-        return res.status(400).send({ message })
+        throw error;
     }
 }
-export const registrar = async (req, res) => {
+export const eliminar = async (id) => {
     try {
-        const usuario = await service.guardar(req.body)
-        return res.json({ usuario });
+        return await Usuario.findByIdAndDelete(id)
     } catch (error) {
-        const message = error?.message || error;
-        return res.status(400).send({ message })
+        throw error;
     }
 }
-
-export const actualizar = async (req, res) => {
-    const { params: { id }, body } = req;
-    try {
-        const usuario = await service.actualizar(id, body)
-        return res.json({ usuario })
-    } catch (error) {
-        const message = error?.message || error;
-        return res.status(400).send({ message })
-    }
-}
-
-export const eliminar = async (req, res) => {
-    try {
-        const usuario = await service.eliminar(req.params?.id)
-        return res.json({ usuario })
-    } catch (error) {
-        const message = error?.message || error;
-        return res.status(400).send({ message })
-    }
-}
-
-export default { listar, findById, search, registrar, actualizar, eliminar }
+export default { buscar, guardar, actualizar, eliminar }
