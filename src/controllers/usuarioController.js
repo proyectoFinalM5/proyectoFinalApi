@@ -2,8 +2,8 @@ import service from '../services/usuario.js'
 
 export const listar = async (req, res) => {
     try {
-        const usuarios = await service.listado()
-        return res.json(usuarios)
+        const usuarios = await service.buscar({});
+        return res.json(usuarios);
     } catch (error) {
         const message = error?.detail || error;
         return res.status(400).send({ message })
@@ -12,7 +12,7 @@ export const listar = async (req, res) => {
 
 export const findById = async (req, res) => {
     try {
-        const usuario = await service.findById(req.params.id)
+        const usuario = await service.search({ _id: req.params.id })
         return res.json({ usuario })
     } catch (error) {
         const message = error?.detail || error;
