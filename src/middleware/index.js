@@ -28,7 +28,7 @@ const reviewToken = (token, role = 'auth') => {
 export const middleware = async (req, res, next) => {
     const { url, method } = req;
     let tokenRequest = req.header['x-access-token'] || req.headers['authorization'];
-    if (tokenRequest.startsWith("Bearer ")) {
+    if (tokenRequest?.startsWith("Bearer ")) {
         tokenRequest = tokenRequest.slice(7, tokenRequest.length)
     }
     const path = url.split('/')[1].toLowerCase();
