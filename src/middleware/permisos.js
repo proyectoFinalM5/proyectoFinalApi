@@ -22,5 +22,6 @@ const permisos = () => {
     return res;
 }
 export const validacionRole = (role, tag, method) => {
+    console.log(role)
     return permisos().find(x => (x.role === role && x.entidad === tag && x.method === method));
 }

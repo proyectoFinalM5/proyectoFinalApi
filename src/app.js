@@ -7,6 +7,7 @@ import routerAuth from './routes/auth.routes.js'
 
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
+import { middleware } from './middleware/index.js'
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -41,8 +42,8 @@ expressJSDocSwagger(app)(options);
 app.use(Express.json());
 app.use(Express.urlencoded({ extended: true }));
 app.use(Morgan('dev'))
-app.use('/comercio', routerComercio)
-app.use('/usuario', routerUsuario)
+app.use('/comercio', middleware, routerComercio)
+app.use('/usuario', middleware, routerUsuario)
 app.use(routerAuth)
 app.set('puerto', process.env.PORT || 3000)
 

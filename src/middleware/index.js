@@ -26,16 +26,15 @@ const reviewToken = (token, role = 'auth') => {
     return { status: 200, decoded }
 }
 const reviewRole = (user, params, method, url) => {
-    const tag = url.split('/')[1];
-    return Boolean(validacionRole(user.rol, tag, method)) || params?.id === user.id;
+    return Boolean(validacionRole(user.rol, url, method)) || params?.id === user.id;
 }
 export const middleware = async (req, res, next) => {
-    const { url, method, params } = req;
+    const { originalUrl, method, params } = req;
     let tokenRequest = req.header['x-access-token'] || req.headers['authorization'];
     if (tokenRequest?.startsWith("Bearer ")) {
         tokenRequest = tokenRequest.slice(7, tokenRequest.length)
     }
-    const path = url.split('/')[1].toLowerCase();
+    const path = originalUrl.split('/')[1];
     const token = {
         token: tokenRequest,
         role: path === 'refresh' ? path : 'auth'
@@ -46,8 +45,7 @@ export const middleware = async (req, res, next) => {
     const { email } = decoded;
     const user = await buscar({ email })
     if (user.length === 0) return res.status(403).send({ message: "User invalid" });
-    const role = user[0].rol;
-    if (!reviewRole(user, params, method, url)) return res.status(401).send({ message: "su role no permite ejecutar esta acción" })
+    if (!reviewRole(user[0], params, method, path)) return res.status(401).send({ message: "su role no permite ejecutar esta acción" })
     req.params.email = email;
     next();
 }

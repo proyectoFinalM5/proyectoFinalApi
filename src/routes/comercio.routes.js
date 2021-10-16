@@ -1,6 +1,5 @@
 import { Router } from 'express'
 import cController from '../controllers/comercioController.js';
-import { middleware } from '../middleware/index.js'
 const ruta = Router();
 
 /**
@@ -10,7 +9,7 @@ const ruta = Router();
  * @return {object} 200 - success response
  * @security BearerAuth
  */
-ruta.get("/", middleware, cController.listar)
+ruta.get("/", cController.listar)
 
 /**
  * GET /comercio/search
@@ -20,7 +19,7 @@ ruta.get("/", middleware, cController.listar)
  * @return {object} 200 - success response - application/json
  * @security BearerAuth
  */
-ruta.get("/search", middleware, cController.search)
+ruta.get("/search", cController.search)
 
 /**
  * GET /comercio/{id}
@@ -30,7 +29,7 @@ ruta.get("/search", middleware, cController.search)
  * @return {object} 200 - success response - application/json
  * @security BearerAuth
  */
-ruta.get("/:id", middleware, cController.findById)
+ruta.get("/:id", cController.findById)
 
 /**
  * POST /comercio
@@ -60,7 +59,7 @@ ruta.get("/:id", middleware, cController.findById)
  *   "logo":"https://firebasestorage.googleapis.com/v0/b/logoapi-3ef15.appspot.com/o/Logo%2Fprecios-y-tarifas-de-logos-margarita.jpg?alt=media&token=bea0e81a-56e5-4486-9c6d-44609fbdeafc"
  * }
  */
-ruta.post("/", middleware, cController.registrar)
+ruta.post("/", cController.registrar)
 
 /**
 * DELETE /comercio/{id}
@@ -70,7 +69,7 @@ ruta.post("/", middleware, cController.registrar)
 * @return {object} 200 - success response - application/json
 * @security BearerAuth
 */
-ruta.delete("/:id", middleware, cController.eliminar)
+ruta.delete("/:id", cController.eliminar)
 
 /**
  * PUT /comercio/{id}
@@ -102,6 +101,6 @@ ruta.delete("/:id", middleware, cController.eliminar)
  *   "logo":"https://firebasestorage.googleapis.com/v0/b/logoapi-3ef15.appspot.com/o/Logo%2Fprecios-y-tarifas-de-logos-margarita.jpg?alt=media&token=bea0e81a-56e5-4486-9c6d-44609fbdeafc"
  * }
  */
-ruta.put("/:id", middleware, cController.actualizar)
+ruta.put("/:id", cController.actualizar)
 export default ruta
 

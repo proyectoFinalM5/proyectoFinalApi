@@ -1,6 +1,5 @@
 import { Router } from 'express'
 import uController from '../controllers/usuarioController.js';
-import { middleware } from '../middleware/index.js'
 
 const ruta = Router();
 
@@ -11,7 +10,7 @@ const ruta = Router();
  * @return {object} 200 - success response
  * @security BearerAuth
  */
-ruta.get("/", middleware, uController.listar)
+ruta.get("/", uController.listar)
 
 /**
  * GET /usuario/{id}
@@ -21,7 +20,7 @@ ruta.get("/", middleware, uController.listar)
  * @security BearerAuth
  * @return {object} 200 - success response - application/json
  */
-ruta.get("/:id", middleware, uController.findById)
+ruta.get("/:id", uController.findById)
 
 /**
  * POST /usuario
@@ -47,7 +46,7 @@ ruta.get("/:id", middleware, uController.findById)
  *   "rol":3
  * }
  */
-ruta.post("/", middleware, uController.registrar)
+ruta.post("/", uController.registrar)
 
 /**
  * DELETE /usuario/{id}
@@ -57,7 +56,7 @@ ruta.post("/", middleware, uController.registrar)
  * @security BearerAuth
  * @return {object} 200 - success response - application/json
  */
-ruta.delete("/:id", middleware, uController.eliminar)
+ruta.delete("/:id", uController.eliminar)
 
 /**
  * PUT /usuario/{id}
