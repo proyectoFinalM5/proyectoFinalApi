@@ -8,6 +8,7 @@ import routerAuth from './routes/auth.routes.js'
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { middleware } from './middleware/index.js'
+import cors from 'cors'
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -40,6 +41,7 @@ const options = {
 
 expressJSDocSwagger(app)(options);
 app.use(Express.json());
+app.use(cors());
 app.use(Express.urlencoded({ extended: true }));
 app.use(Morgan('dev'))
 app.use('/comercio', middleware, routerComercio)
