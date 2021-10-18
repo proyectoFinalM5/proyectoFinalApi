@@ -2,8 +2,8 @@ import { buscar } from "../services/usuario.js";
 import { validacionRole } from "./permisos.js";
 import { verifyToken } from "./token.js";
 
-const reviewToken = (token, role = 'auth') => {
-    if (!token) return { status: 404, message: 'No token found' }
+const reviewToken = (token) => {
+    if (!token) return { status: 404, message: 'No se ha encontrado token' }
     const { error, decoded } = verifyToken(token);
     if (error) {
         const { name, message } = error;
@@ -18,15 +18,15 @@ const reviewToken = (token, role = 'auth') => {
                 minute: 'numeric'
             };
             date = date.toLocaleDateString("en-US", options);
-            const status = role === 'refresh' ? 401 : 400;
-            return { expired: true, status, message: `Your token ${role} has expired in ${date}` }
+            return { expired: true, status: 401, message: `Your token has expired in ${date}` }
         }
         return { status: 400, message }
     }
     return { status: 200, decoded }
 }
 const reviewRole = (user, params, method, url) => {
-    return Boolean(validacionRole(user.rol, url, method)) || params?.id === user.id;
+    const tag = url.split('/')[1];
+    return Boolean(validacionRole(user.rol, tag, method)) || params?.id === user.id;
 }
 export const middleware = async (req, res, next) => {
     const { originalUrl, method, params } = req;
@@ -34,18 +34,12 @@ export const middleware = async (req, res, next) => {
     if (tokenRequest?.startsWith("Bearer ")) {
         tokenRequest = tokenRequest.slice(7, tokenRequest.length)
     }
-    const path = originalUrl.split('/')[1];
-    const token = {
-        token: tokenRequest,
-        role: path === 'refresh' ? path : 'auth'
-    }
-    const reviewAuthToken = await reviewToken(token['token'], token['role']);
-    const { status, message, decoded } = reviewAuthToken;
-    if (status !== 200) return res.status(status).send({ message });
+    const { status, message, decoded, expired } = await reviewToken(tokenRequest);
+    if (status !== 200) return res.status(status).send(Boolean(expired) ? { message, expired } : { message });
     const { email } = decoded;
     const user = await buscar({ email })
-    if (user.length === 0) return res.status(403).send({ message: "User invalid" });
-    if (!reviewRole(user[0], params, method, path)) return res.status(401).send({ message: "su role no permite ejecutar esta acción" })
+    if (user.length === 0) return res.status(403).send({ message: "Usuario invalido" });
+    if (!reviewRole(user[0], params, method, originalUrl)) return res.status(401).send({ message: "Su role no permite ejecutar esta acción" })
     req.params.email = email;
     next();
 }

@@ -14,15 +14,4 @@ export const login = async (email, password) => {
     }
 }
 
-export const refresh = async (email) => {
-    try {
-        const usuario = await buscar({ email });
-        const found = usuario.length > 0;
-        const user = found ? usuario.pop() : {}
-        return { found, user, token: newToken(user.email) };
-    } catch (error) {
-        throw error;
-    }
-}
-
-export default { login, refresh }
+export default { login }

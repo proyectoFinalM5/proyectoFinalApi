@@ -6,24 +6,13 @@ export const login = async (req, res) => {
         const { found, token, user, valid } = await service.login(email, password);
         if (!found) return res.status(400).send({ message: `The user with email ${email} not found` });
         if (!valid) return res.status(400).send({ message: "Invalid password" });
-        return res.send({ user, token })
+        return res.send({ token, user })
     } catch (error) {
         const message = error?.message || error;
         return res.status(400).send({ message })
     }
 }
 
-export const refresh = async (req, res) => {
-    const { email } = req.params;
-    try {
-        const { found, token, user } = await service.refresh(email);
-        if (!found) return res.status(400).send({ message: `The user with email ${email} not found` });
-        return res.send({ user, token })
-    } catch (error) {
-        const message = error?.message || error;
-        return res.status(400).send({ message })
-    }
-}
 
 export const validador = (req, res) => {
     const { email, password } = req.query;

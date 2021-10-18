@@ -1,10 +1,8 @@
 import { Router } from 'express'
-import { login, refresh, validador } from '../controllers/authController.js';
-import { middleware } from '../middleware/index.js'
+import { login, validador } from '../controllers/authController.js';
 
 const ruta = Router();
 ruta.post("/login", login)
-ruta.get("/refresh", middleware, refresh)
 /**
  * GET /validar
  * @summary validar campos
