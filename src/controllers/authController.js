@@ -13,7 +13,6 @@ export const login = async (req, res) => {
     }
 }
 
-
 export const validador = (req, res) => {
     const { email, password } = req.query;
     const test = (prop, value) => {

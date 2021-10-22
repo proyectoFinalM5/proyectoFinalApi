@@ -22,7 +22,8 @@ export const guardar = async (body) => {
 }
 export const actualizar = async (id, body) => {
     try {
-        return await Usuario.findByIdAndUpdate(id, { "$set": { ...body, password: hashPassword(body.password) } }, { returnOriginal: false })
+        const update = body.password ? { ...body, password: hashPassword(body.password) } : body
+        return await Usuario.findByIdAndUpdate(id, { "$set": update }, { returnOriginal: false })
     } catch (error) {
         throw error;
     }
